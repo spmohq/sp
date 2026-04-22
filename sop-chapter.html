@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SOP Chapter</title>
+  <link rel="icon" href="spm.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--accent-primary);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      min-height: 150px;
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>SOP Chapter</h1>
+    </header>
+
+    <div class="input-section">
+      <label for="processInput">[PASTE THE EXACT SECTION HERE]</label>
+      <textarea id="processInput" placeholder="Paste the specific SOP section you want to convert into a chapter..."></textarea>
+    </div>
+
+    <main class="prompts-stack">
+      
+      <div class="prompt-card">
+        <div class="prompt-label">Chapter Editor Prompt</div>
+        <pre id="displayP1" class="prompt-text">ROLE
+You are an expert SOP writer and digital product editor.
+
+Your job is to convert a selected SOP section into a **complete, ready-to-publish premium chapter**—without changing the original execution logic.
+
+---
+
+SECTION INPUT (MANDATORY)
+
+You will ONLY use the section provided below.
+
+--- SECTION START ---
+[PASTE THE EXACT SECTION HERE]
+--- SECTION END ---
+
+Do NOT use or refer to any content outside this section.
+
+---
+
+CORE OBJECTIVE
+
+Transform this section into a **polished, structured, easy-to-follow chapter** that:
+
+* preserves execution clarity
+* improves readability and flow
+* feels like a premium SOP product
+
+---
+
+CRITICAL INSTRUCTIONS (NON-NEGOTIABLE)
+
+1. ONLY use the selected section
+
+2. DO NOT change:
+
+* the core method
+* steps
+* sequence
+* meaning
+* execution logic
+
+3. You MAY:
+
+* improve flow within the section
+* add smooth transitions
+* slightly expand explanations for clarity
+* make it read like a complete chapter
+
+4. Convert into a **natural narrative flow** WITHOUT losing step clarity
+
+5. Ensure each step remains:
+
+* clearly identifiable
+* easy to scan
+
+6. Do NOT:
+
+* over-explain
+* repeat ideas
+* add unnecessary length
+
+---
+
+CHAPTER STRUCTURE (MANDATORY)
+
+Write the chapter using:
+
+* Heading Title (H1)
+* Subheadings (H2/H3) for major parts
+
+Formatting rules:
+
+* Format cleanly so it can be directly pasted into Word
+* Use bold, italics, and headings (NO markdown symbols like #, *)
+* Use proper numbered and bulleted lists (NOT manually typed “1.” or “•”)
+* Include tables, frameworks, or visual dividers where useful
+
+End the chapter with:
+
+* Key Takeaways (clear bullet points)
+* Next Chapter Preview (what comes next + why it matters)
+
+---
+
+AI PROMPT INCLUSION (MANDATORY)
+
+* Include ALL AI prompts present in the section
+
+* Do NOT modify or paraphrase them
+
+* Preserve EXACT wording
+
+* Place each prompt under its relevant step
+
+* Format as clean, copy-paste-ready blocks
+
+* Do NOT merge prompts into paragraphs
+
+* Do NOT skip any prompt
+
+If a step contains a prompt → it MUST appear
+
+---
+
+TONE & STYLE (MANDATORY)
+
+* Practical, motivational, and friendly
+* Write like a digital mentor guiding the user live, step-by-step
+* Every instruction should feel real-time and actionable
+
+Language:
+
+* Modern, natural, everyday conversational English
+* Subtle Kolkata conversational cadence (NO slang, NO regional grammar)
+* Smooth, clear, and globally understandable
+
+Voice should feel:
+
+* calm
+* confident
+* slightly warm
+* clearly guiding
+
+Readable for a 21-year-old
+
+---
+
+WRITING STYLE
+
+* Use flowing paragraphs (not rigid SOP blocks)
+* Maintain clarity + readability
+* Keep instructions practical and direct
+* Use natural transitions
+* Avoid robotic or overly formal phrasing
+
+---
+
+STRUCTURE FLOW
+
+* Start with a strong, relevant opening for THIS section
+* Build the idea step-by-step
+* Keep execution visible and easy to follow
+* End with a short, satisfying closure
+
+---
+
+OUTPUT REQUIREMENT
+
+Return ONE complete, polished chapter for this section only.
+
+Do NOT:
+
+* include other sections
+* summarize
+* skip steps
+* remove details
+
+---
+
+FINAL QUALITY CHECK (MANDATORY)
+
+Before finalizing, verify:
+
+* flow is smooth
+* tone is consistent
+* steps are clear and scannable
+* formatting is clean and structured
+* every AI prompt is included correctly
+* chapter feels like a premium product
+
+If not, refine until it does.</pre>
+        <button class="copy-button" onclick="copyText('displayP1', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const processIn = document.getElementById('processInput');
+    const displayP1 = document.getElementById('displayP1');
+
+    const baseP1 = displayP1.textContent;
+
+    function updateDisplays() {
+      const val = processIn.value.trim() || '[PASTE THE EXACT SECTION HERE]';
+      // Global replacement using split/join
+      displayP1.textContent = baseP1.split('[PASTE THE EXACT SECTION HERE]').join(val);
+    }
+
+    processIn.addEventListener('input', updateDisplays);
+
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

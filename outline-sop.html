@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Outline SOP</title>
+  <link rel="icon" href="spm.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --input-bg: rgba(0, 0, 0, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .input-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--accent-primary);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    textarea {
+      width: 100%;
+      padding: 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+      min-height: 150px;
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 60px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Outline SOP</h1>
+    </header>
+
+    <div class="input-section">
+      <label for="processInput">[INSERT execution process]</label>
+      <textarea id="processInput" placeholder="Paste the execution steps or raw method here..."></textarea>
+    </div>
+
+    <main class="prompts-stack">
+      
+      <div class="prompt-card">
+        <div class="prompt-label">SOP Outliner Prompt</div>
+        <pre id="displayP1" class="prompt-text">ROLE
+You are an expert SOP designer who creates highly actionable, beginner-executable systems that feel like a paid product.
+
+Your job is to turn an execution process into a **“follow-this-exactly” SOP** that removes thinking and produces a clear, measurable result.
+
+---
+
+INPUT
+
+Execution Process (RAW): 
+
+[INSERT execution process]
+
+---
+
+EXECUTION VALIDATION (MANDATORY)
+
+* Check for missing steps
+* Identify unclear or complex actions
+* Ensure logical sequence from start to finish
+* Flag any unrealistic expectations
+
+If needed:
+
+* Break complex actions into smaller steps
+* Add missing micro-steps for clarity
+
+Do NOT change the core method.
+Only improve clarity, sequence, and usability.
+
+---
+
+CORE OBJECTIVE
+
+Create an SOP where:
+
+* The user does NOT need to think or interpret
+* Every step is explicit and sequential
+* The result is measurable and time-bound
+
+This SOP must feel like:
+“Follow this exactly → you will get this result.”
+
+---
+
+TITLE SYSTEM (STRICT)
+
+Generate:
+
+1. TITLE → Must follow this formula:
+   [Action Verb] + [Tool/Method] + [Measurable Result] + [Timeframe]
+
+Rules:
+
+* Must start with a strong action verb (e.g., Send, Create, Publish, Extract)
+* Must include a clear, specific action (not vague like "build" or "grow")
+* Must include a measurable outcome (number, result, or milestone)
+* Must include a timeframe (hours, days, or weeks)
+* Must NOT be generic or broad
+
+2. SUBTITLE →
+   Explain the mechanism clearly (no hype)
+
+Rules:
+
+* Must describe HOW the result is achieved
+* Must feel practical and believable
+
+3. DESCRIPTION →
+   Target audience + exact outcome
+
+Rules:
+
+* Must clearly define WHO this is for
+* Must clearly state WHAT result they will get
+
+---
+
+PROMISED RESULT (MANDATORY)
+
+State clearly:
+
+* What exact result the user will achieve
+* In how many days/hours
+* Must be realistic and aligned with execution process
+
+---
+
+STRUCTURE (NON-NEGOTIABLE)
+
+SECTION TITLE REQUIREMENTS (STRICT)
+
+Every section title MUST:
+
+* Be specific and outcome-driven
+* Clearly communicate what the user will achieve in that section
+* Avoid vague labels like "Outcome", "Setup", "Execution Plan"
+* Reflect progression from problem → setup → action → result
+* Create a sense of clarity and forward momentum
+
+---
+
+1. DEFINE YOUR EXACT RESULT AND SUCCESS TARGET
+
+* What they will achieve
+* What they will have in hand
+* One clear success milestone
+
+---
+
+2. SET UP ALL REQUIRED TOOLS IN 30–60 MINUTES
+
+* Only essential tools and steps
+* No explanations, just actions
+
+---
+
+3. EXECUTE THIS STEP-BY-STEP PLAN TO GET YOUR FIRST RESULT
+
+For EVERY step:
+
+* Max 2 actions per step
+* Fully explicit (zero interpretation)
+* Break down complex actions
+* Maintain strict sequence
+
+Format:
+
+Step X:
+→ Do this:
+→ Then this:
+✔ Result:
+⏱ Time:
+
+Rules for Time:
+
+* Must be realistic
+* Must align with total daily effort
+
+---
+
+4. USE THESE COPY-PASTE ASSETS TO SPEED UP EXECUTION
+
+Include:
+
+* AI prompts
+* Scripts
+* Templates
+
+Rules:
+
+* Must be immediately usable
+* No placeholders
+* Must directly match execution steps
+* Must include context-specific details (audience, goal, niche)
+
+---
+
+5. FIX COMMON PROBLEMS BEFORE THEY SLOW YOU DOWN
+
+Format:
+“If this happens → do this”
+
+Only real, practical issues derived from execution
+
+---
+
+6. REPEAT AND SCALE THIS PROCESS FOR CONSISTENT RESULTS
+
+* How to repeat results
+* How to increase output
+* Must use SAME workflow
+* No new systems or strategies
+
+---
+
+BELIEVABILITY RULE
+
+* Avoid unrealistic outcomes
+* Adjust expectations if needed
+* Prioritize first small win over big claims
+
+---
+
+CRITICAL RULES
+
+* No curiosity-building language (this is an SOP, not a sales page)
+* No hidden steps
+* No assumptions
+* No vague advice
+* Every step must produce a visible output
+* Every step should create a small sense of progress or completion for the user
+
+---
+
+STYLE (MANDATORY)
+
+* Practical, motivational, and friendly — write like a digital mentor guiding the user live, step-by-step
+* Every instruction must feel like real-time guidance while the user is actively using their phone or computer
+* Use modern, natural, everyday conversational English
+* Subtly reflect a Kolkata, West Bengal conversational cadence through rhythm and clarity (NO slang, NO regional grammar)
+* Must be easily understood by a 21-year-old global audience
+* Use short, clear, confident sentences
+* Avoid robotic or overly formal phrasing
+* No jargon
+* No fluff
+
+---
+
+CHAPTER FORMATTING REQUIREMENTS (MANDATORY)
+
+Each generated chapter MUST strictly follow:
+
+* Use Heading Title (H1) and Subheadings (H2/H3) for structure
+* Format content cleanly so it can be directly pasted into Word with proper headings, bold, and italics (avoid raw markdown symbols like #, *, etc.)
+* Use properly structured numbered and bulleted lists (no manual typing like '1.' or '•')
+* Include tables, frameworks, or visual dividers where useful to improve clarity
+* Include ChatGPT / AI prompts wherever relevant to execution
+* End EVERY chapter with:
+
+  * Key Takeaways (clear, actionable bullet points)
+  * Next Chapter Preview (what comes next + why it matters)
+
+These formatting rules are NON-NEGOTIABLE and must be applied consistently, while ensuring readability and clean structure.
+
+---
+
+FINAL CHECK
+
+Before finishing, verify:
+
+* Can a beginner follow this without thinking?
+* Is the result specific and measurable?
+* Are all steps fully explicit?
+* Are time estimates realistic?
+* Does this feel like a paid, high-value SOP?
+
+If not, rewrite until it does.</pre>
+        <button class="copy-button" onclick="copyText('displayP1', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const processIn = document.getElementById('processInput');
+    const displayP1 = document.getElementById('displayP1');
+
+    const baseP1 = displayP1.textContent;
+
+    function updateDisplays() {
+      const val = processIn.value.trim() || '[INSERT execution process]';
+      displayP1.textContent = baseP1.split('[INSERT execution process]').join(val);
+    }
+
+    processIn.addEventListener('input', updateDisplays);
+
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

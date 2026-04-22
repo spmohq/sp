@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Giveaway SOP</title>
+    <!-- Icon Link -->
+    <link rel="icon" href="spm.ico" />
+    <!-- Importing modern Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-radius: 16px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 15px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            flex: 1; /* Pushes footer to bottom */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Step Card Styling */
+        .step-box {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .step-box:hover {
+            transform: translateY(-2px);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .step-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #f1f5f9;
+            border-radius: 12px;
+            resize: vertical;
+            min-height: 100px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Prompt Display Box */
+        .prompt-container {
+            margin-top: 25px;
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .prompt-content {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            padding-bottom: 40px;
+        }
+
+        .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+            border-bottom: 1px dashed #fbbf24;
+        }
+
+        /* Buttons */
+        .btn-app {
+            background: var(--secondary-gradient);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            float: right;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-app:hover {
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+            transform: scale(1.02);
+        }
+
+        .btn-copy {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: var(--success-gradient);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Footer Style */
+        footer {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        /* Utility */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Responsive Mobile */
+        @media (max-width: 600px) {
+            body { padding: 20px 10px; }
+            header h1 { font-size: 1.8rem; }
+            .step-box { padding: 20px; }
+            .btn-app { width: 100%; text-align: center; float: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Prompt Giveaway SOP</h1>
+        <p>A streamlined workflow for viral content creation</p>
+    </header>
+
+    <!-- Step 1 -->
+    <div class="step-box">
+        <span class="step-number">Step 01</span>
+        <span class="step-title">Collect A Prompt</span>
+        <p style="color: var(--text-muted)">Gather your core prompt ideas to begin the optimization process.</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-box clearfix">
+        <span class="step-number">Step 02</span>
+        <span class="step-title">Review the prompt</span>
+        <p style="color: var(--text-muted)">Analyze and refine your prompt using the Genie tool.</p>
+        <a href="https://spmohq.github.io/pbiz/prompt-review-genie.html" target="_blank" class="btn-app">Open Review Genie</a>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-box clearfix">
+        <span class="step-number">Step 03</span>
+        <span class="step-title">Generate Post</span>
+        <p style="color: var(--text-muted)">Transform your reviewed prompt into a high-engagement social media post.</p>
+        <a href="https://spmohq.github.io/pbiz/prompt-of-the-day.html" target="_blank" class="btn-app">Open Post Generator</a>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-box clearfix">
+        <span class="step-number">Step 04</span>
+        <span class="step-title">Create prompt for AI Image</span>
+        <p style="color: var(--text-muted)">Develop a descriptive prompt for AI image generators.</p>
+        <a href="https://spmohq.github.io/k11/ai-image-prompt-genie.html" target="_blank" class="btn-app">Open Image Genie</a>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step-box">
+        <span class="step-number">Step 05</span>
+        <span class="step-title">Create Image</span>
+        
+        <div class="input-group">
+            <label>ENTER IMAGE TEXT BELOW</label>
+            <textarea id="input5" placeholder="Type what text should appear inside the image..." oninput="updateStep5()"></textarea>
+        </div>
+
+        <div class="prompt-container">
+            <div class="prompt-content" id="prompt5">Create this super realistic image:
+<span class="highlight">[Image Text]</span></div>
+            <button class="btn-copy" onclick="copyPrompt('prompt5')">Copy Prompt</button>
+        </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step-box">
+        <span class="step-number">Step 06</span>
+        <span class="step-title">Generate Image Text</span>
+        <div class="prompt-container">
+            <div class="prompt-content" id="prompt6">Could you please suggest a text to be used in this image? My goal is maximum comments.</div>
+            <button class="btn-copy" onclick="copyPrompt('prompt6')">Copy Prompt</button>
+        </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div class="step-box">
+        <span class="step-number">Step 07</span>
+        <span class="step-title">Select The Image Text</span>
+        <p style="color: var(--text-muted)">Choose the most clickable text from the suggestions generated above.</p>
+    </div>
+
+    <!-- Step 8 -->
+    <div class="step-box">
+        <span class="step-number">Step 08</span>
+        <span class="step-title">Optimize Visual Hierarchy</span>
+        
+        <div class="input-group">
+            <label>IMAGE PROMPT</label>
+            <textarea id="input8-prompt" placeholder="Paste the visual description here..." oninput="updateStep8()"></textarea>
+        </div>
+        <div class="input-group" style="margin-top:15px">
+            <label>IMAGE TEXT</label>
+            <textarea id="input8-text" placeholder="Paste the chosen image text here..." oninput="updateStep8()"></textarea>
+        </div>
+
+        <div class="prompt-container">
+            <div class="prompt-content" id="prompt8">Add this text provided below, with exact text placement + font style + visual hierarchy to boost CTR even further, to this prompt:
+
+Prompt:
+<span class="highlight" id="out8-prompt">[Image Prompt]</span>
+
+Image Text:
+<span class="highlight" id="out8-text">[Image Text]</span></div>
+            <button class="btn-copy" onclick="copyPrompt('prompt8')">Copy Prompt</button>
+        </div>
+    </div>
+
+    <!-- Step 9 -->
+    <div class="step-box">
+        <span class="step-number">Step 09</span>
+        <span class="step-title">Create Image with Image Text</span>
+        <p style="color: var(--text-muted)">Generate your final asset using your preferred AI tool.</p>
+    </div>
+
+    <!-- Step 10 -->
+    <div class="step-box clearfix">
+        <span class="step-number">Step 10</span>
+        <span class="step-title">Paste the prompt</span>
+        <p style="color: var(--text-muted)">Execute the final prompt in Gemini to see the magic happen.</p>
+        <a href="https://gemini.google.com/app" target="_blank" class="btn-app">Open Gemini</a>
+    </div>
+
+    <!-- Step 11 -->
+    <div class="step-box">
+        <span class="step-number">Step 11</span>
+        <span class="step-title">Paste own logo using PCMP</span>
+        <p style="color: var(--text-muted)">Brand your image and get ready for the giveaway!</p>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+</footer>
+
+<script>
+    function updateStep5() {
+        const val = document.getElementById('input5').value;
+        const display = val.trim() === "" ? "[Image Text]" : val;
+        document.getElementById('prompt5').innerHTML = `Create this super realistic image:\n<span class="highlight">${display}</span>`;
+    }
+
+    function updateStep8() {
+        const pVal = document.getElementById('input8-prompt').value;
+        const tVal = document.getElementById('input8-text').value;
+        
+        document.getElementById('out8-prompt').innerText = pVal.trim() === "" ? "[Image Prompt]" : pVal;
+        document.getElementById('out8-text').innerText = tVal.trim() === "" ? "[Image Text]" : tVal;
+    }
+
+    function copyPrompt(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "✓ Copied";
+            btn.style.background = "#059669";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "";
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
